@@ -4,7 +4,7 @@ import { ArrowRightCircle } from 'react-bootstrap-icons';
 import 'animate.css';
 import TrackVisibility from 'react-on-screen';
 import Lottie from "lottie-react";
-import revworking from "../public/json/rev-working.json"
+import astro from "../public/json/astro.json"
 
 export const Banner = () => {
   const [loopNum, setLoopNum] = useState(0);
@@ -53,25 +53,20 @@ export const Banner = () => {
       <Container>
         <Row className="aligh-items-center">
           <Col xs={12} md={6} xl={7}>
-            <TrackVisibility>
-              {({ isVisible }) =>
-              <div className={isVisible ? "animate__animated animate__fadeIn" : ""}>
+
+          <Lottie animationData={astro} loop={true} style={{"position": "fixed",  "top": "5vh", "left": "40vw", "zIndex": 0}} />
+              <div className="animate__animated animate__fadeIn">
                 <span className="tagline">Welcome to my Portfolio</span>
                 <h1>{`Hi! I'm Revanth,`}</h1>
                 <h1>a <span className="txt-rotate" dataperiod="1000" data-rotate='[ "Software Developer", "Research Assistant", "Student" ]'><span className="wrap">{text}</span></span></h1>
                   <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
                   <button onClick={() => console.log('connect')}>Let’s Connect <ArrowRightCircle size={25} /></button>
-              </div>}
-            </TrackVisibility>
+              </div>
           </Col>
           <Col xs={12} md={6} xl={5}>
-            <TrackVisibility>
-              {({ isVisible }) =>
-                <div className={isVisible ? "animate__animated animate__zoomIn" : ""}>
-                  <Lottie animationData={revworking} loop={true} />
-                </div>}
-            </TrackVisibility>
-            
+                <div className="animate__animated animate__zoomIn">
+                  <p></p>
+                </div>
           </Col>
         </Row>
       </Container>

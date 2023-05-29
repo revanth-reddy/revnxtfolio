@@ -1,5 +1,8 @@
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 
 export const Skills = () => {
   const responsive = {
@@ -22,6 +25,32 @@ export const Skills = () => {
     }
   };
 
+  const skillset = [
+    "Python",
+    "C++",
+    "C",
+    "Java",
+    "HTML",
+    "CSS",
+    "JavaScript",
+    "Node",
+    "React",
+    "Nextjs",
+    "Redux",
+    "React-Native",
+    "Django",
+    "Flask",
+    "Docker",
+    "Kubernetes",
+    "SQL",
+    "AWS",
+    "Spring",
+    "Git",
+    "CI/CD",
+    "Linux",
+    "REST API",
+  ]
+
   return (
     <section className="skill" id="skills">
         <div className="container">
@@ -29,25 +58,19 @@ export const Skills = () => {
                 <div className="col-12">
                     <div className="skill-bx wow zoomIn">
                         <h2>Skills</h2>
-                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.<br></br> Lorem Ipsum has been the industry's standard dummy text.</p>
-                        <Carousel responsive={responsive} infinite={true} className="owl-carousel owl-theme skill-slider">
-                            <div className="item">
-                                <img src={"/img/meter1.svg"} alt="Image" />
-                                <h5>Web Development</h5>
-                            </div>
-                            <div className="item">
-                                <img src={"/img/meter2.svg"} alt="Image" />
-                                <h5>Brand Identity</h5>
-                            </div>
-                            <div className="item">
-                                <img src={"/img/meter3.svg"} alt="Image" />
-                                <h5>Logo Design</h5>
-                            </div>
-                            <div className="item">
-                                <img src={"/img/meter1.svg"} alt="Image" />
-                                <h5>Web Development</h5>
-                            </div>
-                        </Carousel>
+                        <Container>
+                            <Row>
+                                {
+                                    skillset.map((skill, index) => {
+                                        return (
+                                            <Col size={12} sm={4} md={2} lg={2} style={{"margin": "10px"}} key={index}>
+                                                <div className="animate__animated animate__pulse animate__infinite skillitem">{skill}</div>
+                                            </Col>
+                                        )
+                                    })
+                                }
+                            </Row>
+                        </Container>
                     </div>
                 </div>
             </div>
