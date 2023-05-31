@@ -27,7 +27,7 @@ export const Contact = () => {
 
     var myHeaders = new Headers();
     myHeaders.append("Authorization", "Bearer secret_GLQ2criOyWm3duSHVLRygBBK6RVGFEXcJdR4cc5k0SS");
-    myHeaders.append("Access-Control-Allow-Origin", "*");
+    myHeaders.append("mode", 'no-cors');
     myHeaders.append("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     myHeaders.append("Content-Type", "application/json");
     myHeaders.append("Notion-Version", "2021-05-13");
