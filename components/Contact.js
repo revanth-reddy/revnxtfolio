@@ -6,10 +6,8 @@ import contactjson from "../public/json/contact.json"
 
 export const Contact = () => {
   const formInitialDetails = {
-    firstName: '',
-    lastName: '',
+    name: '',
     email: '',
-    phone: '',
     message: ''
   }
   const [formDetails, setFormDetails] = useState(formInitialDetails);
@@ -26,26 +24,71 @@ export const Contact = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setButtonText("Sending...");
+
+    var myHeaders = new Headers();
+    myHeaders.append("Authorization", "Bearer secret_GLQ2criOyWm3duSHVLRygBBK6RVGFEXcJdR4cc5k0SS");
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append("Notion-Version", "2021-05-13");
+
+    var contactdata = JSON.stringify({
+      "parent": {
+        "database_id": "41ffeca85f614fba9db939b1c61a4464"
+      },
+      "properties": {
+        "name": {
+          "title": [
+            {
+              "text": {
+                "content": formDetails.name
+              }
+            }
+          ]
+        },
+        "email": {
+          "email": formDetails.email
+        },
+        "message": {
+          "rich_text": [
+            {
+              "text": {
+                "content": formDetails.message
+              }
+            }
+          ]
+        }
+      }
+    });
+
+    var requestOptions = {
+      method: 'POST',
+      headers: myHeaders,
+      body: contactdata,
+      redirect: 'follow'
+    };
+
+    fetch("https://api.notion.com/v1/pages", requestOptions)
+      .then(response => response.text())
+      .then(result => {console.log(result); setButtonText("Sent!");})
+      .catch(error => setButtonText("Uh oh!!!"));
+
+
     await new Promise(resolve => setTimeout(resolve, 2000)); // 2 sec
-    setButtonText("Sent!");
-    await new Promise(resolve => setTimeout(resolve, 2000)); // 3 sec
     setButtonText("Send");
-    setStatus({ success: true, message: 'Message sent successfully'});
-    
-    // let response = await fetch("http://localhost:5000/contact", {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json;charset=utf-8",
-    //   },
-    //   body: JSON.stringify(formDetails),
-    // });
+    // await new Promise(resolve => setTimeout(resolve, 2000)); // 3 sec
     // setButtonText("Send");
-    // let result = await response.json();
+    // setStatus({ success: true, message: 'Message sent successfully'});
+    
+    
+
+    
     // setFormDetails(formInitialDetails);
+
     // if (result.code == 200) {
     //   setStatus({ success: true, message: 'Message sent successfully'});
+    //   setButtonText("Send");
     // } else {
     //   setStatus({ success: false, message: 'Something went wrong, please try again later.'});
+    //   setButtonText("Send");
     // }
   };
 
@@ -62,16 +105,10 @@ export const Contact = () => {
                 <form onSubmit={handleSubmit}>
                   <Row>
                     <Col size={12} sm={6} className="px-1">
-                      <input type="text" value={formDetails.firstName} placeholder="First Name" onChange={(e) => onFormUpdate('firstName', e.target.value)} />
-                    </Col>
-                    <Col size={12} sm={6} className="px-1">
-                      <input type="text" value={formDetails.lasttName} placeholder="Last Name" onChange={(e) => onFormUpdate('lastName', e.target.value)}/>
+                      <input type="text" value={formDetails.name} placeholder="Name" onChange={(e) => onFormUpdate('name', e.target.value)} />
                     </Col>
                     <Col size={12} sm={6} className="px-1">
                       <input type="email" value={formDetails.email} placeholder="Email Address" onChange={(e) => onFormUpdate('email', e.target.value)} />
-                    </Col>
-                    <Col size={12} sm={6} className="px-1">
-                      <input type="tel" value={formDetails.phone} placeholder="Phone No." onChange={(e) => onFormUpdate('phone', e.target.value)}/>
                     </Col>
                     <Col size={12} className="px-1">
                       <textarea rows="6" value={formDetails.message} placeholder="Message" onChange={(e) => onFormUpdate('message', e.target.value)}></textarea>
