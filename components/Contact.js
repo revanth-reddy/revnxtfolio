@@ -3,6 +3,7 @@ import { Container, Row, Col } from "react-bootstrap";
 import 'animate.css';
 import Lottie from "lottie-react";
 import contactjson from "../public/json/contact.json"
+import axios from 'axios';
 
 export const Contact = () => {
   const formInitialDetails = {
@@ -25,73 +26,22 @@ export const Contact = () => {
     e.preventDefault();
     setButtonText("Sending...");
 
-    var myHeaders = new Headers();
-    myHeaders.append("Authorization", "Bearer secret_GLQ2criOyWm3duSHVLRygBBK6RVGFEXcJdR4cc5k0SS");
-    myHeaders.append("mode", 'no-cors');
-    myHeaders.append("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    myHeaders.append("Content-Type", "application/json");
-    myHeaders.append("Notion-Version", "2021-05-13");
-
-    var contactdata = JSON.stringify({
-      "parent": {
-        "database_id": "41ffeca85f614fba9db939b1c61a4464"
-      },
-      "properties": {
-        "name": {
-          "title": [
-            {
-              "text": {
-                "content": formDetails.name
-              }
-            }
-          ]
-        },
-        "email": {
-          "email": formDetails.email
-        },
-        "message": {
-          "rich_text": [
-            {
-              "text": {
-                "content": formDetails.message
-              }
-            }
-          ]
-        }
-      }
-    });
-
     var requestOptions = {
-      method: 'POST',
-      headers: myHeaders,
-      body: contactdata,
+      method: 'GET',
       redirect: 'follow'
     };
+    let url = "http://43.205.89.7:8989/"+formDetails.name+"/"+formDetails.email+"/"+formDetails.message
+    
+    fetch(url, requestOptions)
+    .then(response => response.text())
+    .then(result => {console.log(result); setButtonText("Sent!");})
+    .catch(error => setButtonText("Uh oh!!!"));
 
-    fetch("https://api.notion.com/v1/pages", requestOptions)
-      .then(response => response.text())
-      .then(result => {console.log(result); setButtonText("Sent!");})
-      .catch(error => setButtonText("Uh oh!!!"));
 
-
-    await new Promise(resolve => setTimeout(resolve, 2000)); // 2 sec
+    await new Promise(resolve => setTimeout(resolve, 5000)); // 2 sec
     setButtonText("Send");
-    // await new Promise(resolve => setTimeout(resolve, 2000)); // 3 sec
-    // setButtonText("Send");
-    // setStatus({ success: true, message: 'Message sent successfully'});
-    
-    
-
-    
-    // setFormDetails(formInitialDetails);
-
-    // if (result.code == 200) {
-    //   setStatus({ success: true, message: 'Message sent successfully'});
-    //   setButtonText("Send");
-    // } else {
-    //   setStatus({ success: false, message: 'Something went wrong, please try again later.'});
-    //   setButtonText("Send");
-    // }
+        
+    setFormDetails(formInitialDetails);
   };
 
   return (
